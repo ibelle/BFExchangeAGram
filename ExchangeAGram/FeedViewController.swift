@@ -8,14 +8,21 @@
 
 import UIKit
 import MobileCoreServices
+import CoreData
 
 class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate  {
 
+    let appDelegate:AppDelegate =  UIApplication.sharedApplication().delegate as! AppDelegate
+    var feedArray:[AnyObject] = []
+    
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        let request  = NSFetchRequest(entityName: "FeedItem")
+        let context:NSManagedObjectContext = self.appDelegate.managedObjectContext
+        
+        feedArray = try! context.executeFetchRequest(request) //Wrap is full do-catch in prod!
 
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,20 +73,38 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         print(image)
         
+        let imageData = UIImageJPEGRepresentation(image, 1.0)//Convert image to manageable data
+        let managedObjectContext = self.appDelegate.managedObjectContext
+        let entityDescription = NSEntityDescription.entityForName("FeedItem", inManagedObjectContext: managedObjectContext)
+        let feedItem = FeedItem(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
+        
+        feedItem.image = imageData
+        feedItem.caption = "test caption"
+        
+        self.appDelegate.saveContext()
+        self.feedArray.append(feedItem)
         self.dismissViewControllerAnimated(true, completion: nil)
+        self.collectionView.reloadData()
     }
+    
     
     //UICollectionViewDataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
     
+
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return feedArray.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let cell:FeedCell =  collectionView.dequeueReusableCellWithReuseIdentifier("MyCell", forIndexPath: indexPath) as! FeedCell
+        let thisItem = feedArray[indexPath.row] as! FeedItem
+        cell.imageView.image = UIImage(data: thisItem.image!)
+        cell.imageCaptionLabel.text = thisItem.caption
+        return cell
     }
 
 }
