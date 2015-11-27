@@ -47,9 +47,20 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FltrCell", forIndexPath: indexPath) as! FilterCell
-        //cell.imageView.image = UIImage(named: "Placeholder")
-        cell.imageView.image = self.filteredImageForImage(self.thisFeedItem.image!, filter: filters[indexPath.row])
+        cell.imageView.image = UIImage(named: "Placeholder")
+        let filter_queue:dispatch_queue_t  = dispatch_queue_create("filter queue", nil)
         
+        //Apply filter in background
+        //TODO: Review and furthre Optimize
+        dispatch_async(filter_queue, { () -> Void in
+            let filteredImage = self.filteredImageForImage(self.thisFeedItem.image!, filter: self.filters[indexPath.row])
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                cell.imageView.image = filteredImage
+            })
+        })
+        
+    
         return cell
     }
  
@@ -97,6 +108,7 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         //3) Convert Sampled CGImage into UI Image for display
         let finalImage:UIImage = UIImage(CGImage: cgImage)
         
+        //let finalImage = UIImage(CIImage: filteredImage)
         return finalImage
     }
     
