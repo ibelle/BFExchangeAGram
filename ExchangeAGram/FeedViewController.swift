@@ -74,11 +74,14 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         print(image)
         
         let imageData = UIImageJPEGRepresentation(image, 1.0)//Convert image to manageable data
+        let thumbNailData = UIImageJPEGRepresentation(image, 0.1)
+        
         let managedObjectContext = self.appDelegate.managedObjectContext
         let entityDescription = NSEntityDescription.entityForName("FeedItem", inManagedObjectContext: managedObjectContext)
         let feedItem = FeedItem(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
         
         feedItem.image = imageData
+        feedItem.thumbNail = thumbNailData
         feedItem.caption = "test caption"
         
         self.appDelegate.saveContext()

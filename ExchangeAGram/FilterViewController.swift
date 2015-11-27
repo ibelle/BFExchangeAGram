@@ -51,9 +51,9 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         let filter_queue:dispatch_queue_t  = dispatch_queue_create("filter queue", nil)
         
         //Apply filter in background
-        //TODO: Review and furthre Optimize
+        //TODO: Review and further Optimize
         dispatch_async(filter_queue, { () -> Void in
-            let filteredImage = self.filteredImageForImage(self.thisFeedItem.image!, filter: self.filters[indexPath.row])
+            let filteredImage = self.filteredImageForImage(self.thisFeedItem.thumbNail!, filter: self.filters[indexPath.row])
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 cell.imageView.image = filteredImage

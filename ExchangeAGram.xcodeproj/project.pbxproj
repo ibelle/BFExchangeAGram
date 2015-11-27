@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4059A6731C08D5F600845846 /* FeedItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4059A6711C08D5F600845846 /* FeedItem+CoreDataProperties.swift */; };
+		4059A6741C08D5F600845846 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4059A6721C08D5F600845846 /* FeedItem.swift */; };
 		409D62821C011632001C557A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D62811C011632001C557A /* AppDelegate.swift */; };
 		409D62871C011632001C557A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 409D62851C011632001C557A /* Main.storyboard */; };
 		409D628A1C011632001C557A /* ExchangeAGram.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 409D62881C011632001C557A /* ExchangeAGram.xcdatamodeld */; };
@@ -17,8 +19,6 @@
 		409D62B31C024F50001C557A /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D62B21C024F50001C557A /* FeedViewController.swift */; };
 		409D62B51C025963001C557A /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D62B41C025963001C557A /* FeedCell.swift */; };
 		409D62B71C025BDA001C557A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 409D62B61C025BDA001C557A /* MobileCoreServices.framework */; };
-		409D62BA1C05586B001C557A /* FeedItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D62B81C05586B001C557A /* FeedItem+CoreDataProperties.swift */; };
-		409D62BB1C05586C001C557A /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D62B91C05586B001C557A /* FeedItem.swift */; };
 		40BB879F1C0697AC00764C6F /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BB879E1C0697AC00764C6F /* FilterViewController.swift */; };
 		40EC7AC91C08045E00975AC5 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC7AC81C08045E00975AC5 /* FilterCell.swift */; };
 /* End PBXBuildFile section */
@@ -41,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4059A6711C08D5F600845846 /* FeedItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4059A6721C08D5F600845846 /* FeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		409D627E1C011632001C557A /* ExchangeAGram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExchangeAGram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		409D62811C011632001C557A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		409D62861C011632001C557A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -57,8 +59,6 @@
 		409D62B21C024F50001C557A /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		409D62B41C025963001C557A /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		409D62B61C025BDA001C557A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		409D62B81C05586B001C557A /* FeedItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		409D62B91C05586B001C557A /* FeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		40BB879E1C0697AC00764C6F /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		40EC7AC81C08045E00975AC5 /* FilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,6 +89,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4059A6751C08D62700845846 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4059A6711C08D5F600845846 /* FeedItem+CoreDataProperties.swift */,
+				4059A6721C08D5F600845846 /* FeedItem.swift */,
+				409D62881C011632001C557A /* ExchangeAGram.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		409D62751C011632001C557A = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +123,7 @@
 		409D62801C011632001C557A /* ExchangeAGram */ = {
 			isa = PBXGroup;
 			children = (
+				4059A6751C08D62700845846 /* Model */,
 				409D62B21C024F50001C557A /* FeedViewController.swift */,
 				409D62B41C025963001C557A /* FeedCell.swift */,
 				40EC7AC81C08045E00975AC5 /* FilterCell.swift */,
@@ -121,9 +132,6 @@
 				409D628B1C011632001C557A /* Assets.xcassets */,
 				409D628D1C011632001C557A /* LaunchScreen.storyboard */,
 				409D62901C011632001C557A /* Info.plist */,
-				409D62B81C05586B001C557A /* FeedItem+CoreDataProperties.swift */,
-				409D62B91C05586B001C557A /* FeedItem.swift */,
-				409D62881C011632001C557A /* ExchangeAGram.xcdatamodeld */,
 				40BB879E1C0697AC00764C6F /* FilterViewController.swift */,
 			);
 			path = ExchangeAGram;
@@ -280,9 +288,9 @@
 			files = (
 				40BB879F1C0697AC00764C6F /* FilterViewController.swift in Sources */,
 				40EC7AC91C08045E00975AC5 /* FilterCell.swift in Sources */,
+				4059A6731C08D5F600845846 /* FeedItem+CoreDataProperties.swift in Sources */,
 				409D628A1C011632001C557A /* ExchangeAGram.xcdatamodeld in Sources */,
-				409D62BA1C05586B001C557A /* FeedItem+CoreDataProperties.swift in Sources */,
-				409D62BB1C05586C001C557A /* FeedItem.swift in Sources */,
+				4059A6741C08D5F600845846 /* FeedItem.swift in Sources */,
 				409D62B51C025963001C557A /* FeedCell.swift in Sources */,
 				409D62B31C024F50001C557A /* FeedViewController.swift in Sources */,
 				409D62821C011632001C557A /* AppDelegate.swift in Sources */,
