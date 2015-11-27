@@ -12,6 +12,8 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     var thisFeedItem: FeedItem!
     var collectionView: UICollectionView!
+    var context:CIContext = CIContext(options: nil)
+    var filters:[CIFilter] = []
     let kIntensity = 0.7
     
     
@@ -29,6 +31,7 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         collectionView.backgroundColor = UIColor.whiteColor()
         collectionView.registerClass(FilterCell.self, forCellWithReuseIdentifier: "FltrCell")
         self.view.addSubview(collectionView)
+        filters = self.photoFilters()
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,13 +41,15 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      return  1
+      return  self.filters.count
     }
     
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FltrCell", forIndexPath: indexPath) as! FilterCell
-        cell.imageView.image = UIImage(named: "Placeholder")
+        //cell.imageView.image = UIImage(named: "Placeholder")
+        cell.imageView.image = self.filteredImageForImage(self.thisFeedItem.image!, filter: filters[indexPath.row])
+        
         return cell
     }
  
@@ -57,8 +62,8 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         let unsharpen = CIFilter(name: "CIUnsharpMask")!
         let monochrome = CIFilter(name: "CIColorMonochrome")!
         
-        let colorControls = CIFilter(name: "CIColorControl")!
-        colorControls.setValue(0.5, forKey: kCIInputRefractionKey)
+        let colorControls = CIFilter(name: "CIColorControls")!
+        colorControls.setValue(0.5, forKey: kCIInputSaturationKey)
         
         let sepia = CIFilter(name: "CISepiaTone")!
         sepia.setValue(kIntensity, forKey: kCIInputIntensityKey)
@@ -76,6 +81,23 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         vignette.setValue(kIntensity * 30, forKey: kCIInputRadiusKey)
         
         return [blur,instant,noir,transfer,unsharpen,monochrome,colorControls,sepia,colorClamp,composite,vignette]
+    }
+    
+    func filteredImageForImage(imageData: NSData, filter: CIFilter) -> UIImage {
+        //RELEVANT Article on CGImage vs. UIImage vs. CIIMage 
+        //https://medium.com/@ranleung/uiimage-vs-ciimage-vs-cgimage-3db9d8b83d94#.fbhnc2npb
+        //1)Apply Filter
+        let inputImage:CIImage = CIImage(data: imageData)!
+        filter.setValue(inputImage, forKey: kCIInputImageKey)
+        let filteredImage:CIImage = filter.outputImage!
+ 
+        //2) Sample CIImage into CG Image with bounds formed by extent )Optimizing for display in collection view)
+        let cgImage:CGImageRef = context.createCGImage(filteredImage, fromRect: filteredImage.extent)
+        
+        //3) Convert Sampled CGImage into UI Image for display
+        let finalImage:UIImage = UIImage(CGImage: cgImage)
+        
+        return finalImage
     }
     
 }
