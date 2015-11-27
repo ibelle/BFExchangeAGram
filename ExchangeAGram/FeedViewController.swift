@@ -106,5 +106,15 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         cell.imageCaptionLabel.text = thisItem.caption
         return cell
     }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let thisItem = feedArray[indexPath.row] as! FeedItem
+        
+        let filterVC = FilterViewController()//TODO: I feel some type of way about this
+        
+        filterVC.thisFeedItem = thisItem
+        filterVC.title = "FIlterVC"
+        self.navigationController?.pushViewController(filterVC, animated: false)
+    }
 
 }

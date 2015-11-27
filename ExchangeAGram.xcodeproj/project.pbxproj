@@ -19,6 +19,8 @@
 		409D62B71C025BDA001C557A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 409D62B61C025BDA001C557A /* MobileCoreServices.framework */; };
 		409D62BA1C05586B001C557A /* FeedItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D62B81C05586B001C557A /* FeedItem+CoreDataProperties.swift */; };
 		409D62BB1C05586C001C557A /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D62B91C05586B001C557A /* FeedItem.swift */; };
+		40BB879F1C0697AC00764C6F /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BB879E1C0697AC00764C6F /* FilterViewController.swift */; };
+		40EC7AC91C08045E00975AC5 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EC7AC81C08045E00975AC5 /* FilterCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		409D62B61C025BDA001C557A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		409D62B81C05586B001C557A /* FeedItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		409D62B91C05586B001C557A /* FeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		40BB879E1C0697AC00764C6F /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		40EC7AC81C08045E00975AC5 /* FilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,7 @@
 			children = (
 				409D62B21C024F50001C557A /* FeedViewController.swift */,
 				409D62B41C025963001C557A /* FeedCell.swift */,
+				40EC7AC81C08045E00975AC5 /* FilterCell.swift */,
 				409D62811C011632001C557A /* AppDelegate.swift */,
 				409D62851C011632001C557A /* Main.storyboard */,
 				409D628B1C011632001C557A /* Assets.xcassets */,
@@ -119,6 +124,7 @@
 				409D62B81C05586B001C557A /* FeedItem+CoreDataProperties.swift */,
 				409D62B91C05586B001C557A /* FeedItem.swift */,
 				409D62881C011632001C557A /* ExchangeAGram.xcdatamodeld */,
+				40BB879E1C0697AC00764C6F /* FilterViewController.swift */,
 			);
 			path = ExchangeAGram;
 			sourceTree = "<group>";
@@ -272,6 +278,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40BB879F1C0697AC00764C6F /* FilterViewController.swift in Sources */,
+				40EC7AC91C08045E00975AC5 /* FilterCell.swift in Sources */,
 				409D628A1C011632001C557A /* ExchangeAGram.xcdatamodeld in Sources */,
 				409D62BA1C05586B001C557A /* FeedItem+CoreDataProperties.swift in Sources */,
 				409D62BB1C05586C001C557A /* FeedItem.swift in Sources */,
@@ -504,6 +512,7 @@
 				409D62AB1C011633001C557A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		409D62AC1C011633001C557A /* Build configuration list for PBXNativeTarget "ExchangeAGramTests" */ = {
 			isa = XCConfigurationList;
@@ -512,6 +521,7 @@
 				409D62AE1C011633001C557A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		409D62AF1C011633001C557A /* Build configuration list for PBXNativeTarget "ExchangeAGramUITests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +530,7 @@
 				409D62B11C011633001C557A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
