@@ -11,6 +11,7 @@ import MobileCoreServices
 import CoreData
 
 class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate  {
+    @IBOutlet weak var galleryCollectionView: UICollectionView!
 
     let appDelegate:AppDelegate =  UIApplication.sharedApplication().delegate as! AppDelegate
     var feedArray:[AnyObject] = []
@@ -20,9 +21,8 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
         let request  = NSFetchRequest(entityName: "FeedItem")
         let context:NSManagedObjectContext = self.appDelegate.managedObjectContext
-        
-        feedArray = try! context.executeFetchRequest(request) //Wrap is full do-catch in prod!
-
+        feedArray = try! context.executeFetchRequest(request)
+        //Wrap is full do-catch in prod!
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,16 +46,7 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     //Misc
     func getImagePickerController(sourceType: UIImagePickerControllerSourceType, allowEditing: Bool) -> UIImagePickerController {
     
@@ -71,10 +62,11 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //UIIMagePickerControllerDelegate
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        print(image)
+        print("IMAGE SELECTED\(image)")
         
         let imageData = UIImageJPEGRepresentation(image, 1.0)//Convert image to manageable data
-        let thumbNailData = UIImageJPEGRepresentation(image, 0.1)
+        let thumbNailData = UIImageJPEGRepresentation(image, 0.1)//
+        
         
         let managedObjectContext = self.appDelegate.managedObjectContext
         let entityDescription = NSEntityDescription.entityForName("FeedItem", inManagedObjectContext: managedObjectContext)
@@ -85,8 +77,10 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         feedItem.caption = "test caption"
         
         self.appDelegate.saveContext()
+        
         self.feedArray.append(feedItem)
         self.dismissViewControllerAnimated(true, completion: nil)
+        print("Size of FeedArray After Selection \(self.feedArray.count)")
         self.collectionView.reloadData()
     }
     
@@ -99,12 +93,14 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return feedArray.count
+        print("Size of FeedArray in CollectionViewCallback \(self.feedArray.count)")
+        return self.feedArray.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell:FeedCell =  collectionView.dequeueReusableCellWithReuseIdentifier("MyCell", forIndexPath: indexPath) as! FeedCell
         let thisItem = feedArray[indexPath.row] as! FeedItem
+        print("Location \(indexPath.row), Item\(thisItem)")
         cell.imageView.image = UIImage(data: thisItem.image!)
         cell.imageCaptionLabel.text = thisItem.caption
         return cell
@@ -113,10 +109,11 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let thisItem = feedArray[indexPath.row] as! FeedItem
         
+        print("Selected Location \(indexPath.row), Item\(thisItem)")
         let filterVC = FilterViewController()//TODO: I feel some type of way about this
         
         filterVC.thisFeedItem = thisItem
-        filterVC.title = "FIlterVC"
+        filterVC.title = "FilterVC"
         self.navigationController?.pushViewController(filterVC, animated: false)
     }
 

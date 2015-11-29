@@ -15,6 +15,9 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     var context:CIContext = CIContext(options: nil)
     var filters:[CIFilter] = []
     let kIntensity = 0.7
+    let placeHolderImage:UIImage = UIImage(named: "Placeholder")!
+    let tmp:String = NSTemporaryDirectory()
+    
     
     
     
@@ -47,20 +50,21 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FltrCell", forIndexPath: indexPath) as! FilterCell
-        cell.imageView.image = UIImage(named: "Placeholder")
+        
+        cell.imageView.image = self.placeHolderImage
         let filter_queue:dispatch_queue_t  = dispatch_queue_create("filter queue", nil)
         
         //Apply filter in background
-        //TODO: Review and further Optimize
         dispatch_async(filter_queue, { () -> Void in
-            let filteredImage = self.filteredImageForImage(self.thisFeedItem.thumbNail!, filter: self.filters[indexPath.row])
+            let filteredImage = self.getCachedImage(indexPath.row)
+            
+            //self.filteredImageForImage(self.thisFeedItem.thumbNail!, filter: self.filters[indexPath.row])
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 cell.imageView.image = filteredImage
             })
         })
         
-    
         return cell
     }
  
@@ -79,10 +83,11 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         let sepia = CIFilter(name: "CISepiaTone")!
         sepia.setValue(kIntensity, forKey: kCIInputIntensityKey)
         
-        let colorClamp = CIFilter(name: "CIColorClamp")!
+        let colorClamp = CIFilter(name: "CIColorClamp")! //TODO: Comeback and Fix
         colorClamp.setValue(CIVector(x: 0.9, y: 0.9, z: 0.9, w: 0.9), forKey: "inputMaxComponents")
         colorClamp.setValue(CIVector(x: 0.2, y: 0.2, z: 0.2, w: 0.2), forKey: "inputMinComponents")
         
+    
         let composite = CIFilter(name: "CIHardLightBlendMode")!
         composite.setValue(sepia.outputImage, forKey: kCIInputImageKey)
         
@@ -91,7 +96,7 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         vignette.setValue(kIntensity * 2, forKey: kCIInputIntensityKey)
         vignette.setValue(kIntensity * 30, forKey: kCIInputRadiusKey)
         
-        return [blur,instant,noir,transfer,unsharpen,monochrome,colorControls,sepia,colorClamp,composite,vignette]
+        return [blur,instant,noir,transfer,unsharpen,monochrome,colorControls,sepia,composite,vignette]
     }
     
     func filteredImageForImage(imageData: NSData, filter: CIFilter) -> UIImage {
@@ -103,13 +108,40 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         let filteredImage:CIImage = filter.outputImage!
  
         //2) Sample CIImage into CG Image with bounds formed by extent )Optimizing for display in collection view)
-        let cgImage:CGImageRef = context.createCGImage(filteredImage, fromRect: filteredImage.extent)
+        let rect = filteredImage.extent
+        let cgImage:CGImageRef = context.createCGImage(filteredImage, fromRect: rect)
         
         //3) Convert Sampled CGImage into UI Image for display
         let finalImage:UIImage = UIImage(CGImage: cgImage)
         
         //let finalImage = UIImage(CIImage: filteredImage)
         return finalImage
+    }
+    
+    func cacheImage(imageNumber:Int){
+        let  fileName = "\(imageNumber)"
+        let uniquePath =  (tmp as NSString).stringByAppendingPathComponent(fileName)
+        
+        if !NSFileManager.defaultManager().fileExistsAtPath(fileName){
+            let data = self.thisFeedItem.thumbNail
+            let filter = self.filters[imageNumber]
+            let image = filteredImageForImage(data!, filter: filter)
+            UIImageJPEGRepresentation(image, 1.0)!.writeToFile(uniquePath, atomically: true)
+        }
+    }
+    
+    func getCachedImage (imageNumber: Int) -> UIImage {
+        let fileName = "\(imageNumber)"
+        let uniquePath = (tmp as NSString).stringByAppendingPathComponent(fileName)
+        var image:UIImage
+        
+        if NSFileManager.defaultManager().fileExistsAtPath(uniquePath) {
+            image = UIImage(contentsOfFile: uniquePath)!
+        } else {
+            self.cacheImage(imageNumber)
+            image = UIImage(contentsOfFile: uniquePath)!
+        }
+        return image
     }
     
 }
