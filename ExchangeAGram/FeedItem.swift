@@ -2,7 +2,7 @@
 //  FeedItem.swift
 //  ExchangeAGram
 //
-//  Created by Isaiah Belle on 11/27/15.
+//  Created by Isaiah Belle on 12/2/15.
 //  Copyright © 2015 Isaiah Belle. All rights reserved.
 //
 

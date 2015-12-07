@@ -17,6 +17,7 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     let kIntensity = 0.7
     let placeHolderImage:UIImage = UIImage(named: "Placeholder")!
     let tmp:String = NSTemporaryDirectory()
+    let appDelegate:AppDelegate =  UIApplication.sharedApplication().delegate as! AppDelegate
     
     
     
@@ -64,10 +65,21 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
                 cell.imageView.image = filteredImage
             })
         })
-        
         return cell
     }
- 
+    
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    //GCD this Shit
+        let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: self.filters[indexPath.row])
+        let imageData = UIImageJPEGRepresentation(filterImage, 1.0)
+        self.thisFeedItem.image = imageData
+        let thumbNailData = UIImageJPEGRepresentation(filterImage, 0.1)
+        self.thisFeedItem.thumbNail = thumbNailData
+        self.appDelegate.saveContext()
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     //Misc
     func photoFilters() -> [CIFilter] {
         let blur = CIFilter(name: "CIGaussianBlur")!
@@ -119,10 +131,10 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     }
     
     func cacheImage(imageNumber:Int){
-        let  fileName = "\(imageNumber)"
+        let  fileName = "\(imageNumber)-\(self.thisFeedItem.creationDate)"
         let uniquePath =  (tmp as NSString).stringByAppendingPathComponent(fileName)
         
-        if !NSFileManager.defaultManager().fileExistsAtPath(fileName){
+        if !NSFileManager.defaultManager().fileExistsAtPath(uniquePath){
             let data = self.thisFeedItem.thumbNail
             let filter = self.filters[imageNumber]
             let image = filteredImageForImage(data!, filter: filter)
@@ -131,7 +143,7 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     }
     
     func getCachedImage (imageNumber: Int) -> UIImage {
-        let fileName = "\(imageNumber)"
+        let fileName = "\(imageNumber)-\(self.thisFeedItem.creationDate)"
         let uniquePath = (tmp as NSString).stringByAppendingPathComponent(fileName)
         var image:UIImage
         

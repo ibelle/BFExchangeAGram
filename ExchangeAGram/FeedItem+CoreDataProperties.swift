@@ -2,7 +2,7 @@
 //  FeedItem+CoreDataProperties.swift
 //  ExchangeAGram
 //
-//  Created by Isaiah Belle on 11/27/15.
+//  Created by Isaiah Belle on 12/2/15.
 //  Copyright © 2015 Isaiah Belle. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -17,5 +17,6 @@ extension FeedItem {
     @NSManaged var caption: String?
     @NSManaged var image: NSData?
     @NSManaged var thumbNail: NSData?
+    @NSManaged var creationDate: NSDate?
 
 }

@@ -19,9 +19,13 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        let request  = NSFetchRequest(entityName: "FeedItem")
-        let context:NSManagedObjectContext = self.appDelegate.managedObjectContext
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        let request = NSFetchRequest(entityName: "FeedItem")
+        let context:NSManagedObjectContext = appDelegate.managedObjectContext
         feedArray = try! context.executeFetchRequest(request)
+        self.collectionView.reloadData()
         //Wrap is full do-catch in prod!
     }
 
@@ -74,6 +78,7 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         feedItem.image = imageData
         feedItem.thumbNail = thumbNailData
+        feedItem.creationDate = NSDate()
         feedItem.caption = "test caption"
         
         self.appDelegate.saveContext()
