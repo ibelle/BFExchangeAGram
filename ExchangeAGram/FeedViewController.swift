@@ -11,6 +11,7 @@ import MobileCoreServices
 import CoreData
 
 class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate  {
+    
     @IBOutlet weak var galleryCollectionView: UICollectionView!
 
     let appDelegate:AppDelegate =  UIApplication.sharedApplication().delegate as! AppDelegate
@@ -34,7 +35,9 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         // Dispose of any resources that can be recreated.
     }
     
-
+    @IBAction func profileButtonTapped(sender: UIBarButtonItem) {
+        self.performSegueWithIdentifier("profileSegue", sender: nil)
+    }
     @IBAction func snapBarButtonItemTapped(sender: UIBarButtonItem) {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
             let cameraController = self.getImagePickerController(UIImagePickerControllerSourceType.Camera, allowEditing: false)
