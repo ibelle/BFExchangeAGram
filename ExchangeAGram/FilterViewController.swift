@@ -70,7 +70,49 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    //GCD this Shit
+        self.createUIAlertContoller(indexPath)
+    }
+    
+    //Misc
+    //UIAlert Controllers
+    func createUIAlertContoller(indexPath: NSIndexPath){
+        let alert = UIAlertController(title: "Photo Options", message: "Please choose an option", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+            textField.placeholder = "Add Caption"
+            textField.secureTextEntry = false
+            })
+        
+       
+        var text:String
+        let textField = alert.textFields![0] as UITextField
+        
+        if textField.text != nil {
+             text = textField.text!
+        }
+        
+        let photoAction = UIAlertAction(title: "Post Photo to Facebook with Caption", style: UIAlertActionStyle.Destructive, handler: {(UIAlertAction) -> Void in
+             self.saveFilterToCoreData(indexPath)
+             self.shareToFacebook(indexPath)
+        })
+        alert.addAction(photoAction)
+        
+        let saveFilterAction = UIAlertAction(title: "Save Filter without Posting", style: UIAlertActionStyle.Default, handler: {(UIAlertAction) -> Void in
+            self.saveFilterToCoreData(indexPath)
+        })
+        alert.addAction(saveFilterAction)
+        
+        let cancelAction = UIAlertAction(title: "Select Another Filter", style: UIAlertActionStyle.Cancel, handler: {(UIAlertAction) -> Void in
+        //TODO
+        })
+        alert.addAction(cancelAction)
+        
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        }
+    
+    //Action Helpers
+    func saveFilterToCoreData (indexPath: NSIndexPath) {
         let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: self.filters[indexPath.row])
         let imageData = UIImageJPEGRepresentation(filterImage, 1.0)
         self.thisFeedItem.image = imageData
@@ -80,7 +122,11 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    //Misc
+    
+    func shareToFacebook(indexPath: NSIndexPath){}
+    
+    
+    //Filters and Caching
     func photoFilters() -> [CIFilter] {
         let blur = CIFilter(name: "CIGaussianBlur")!
         let instant = CIFilter(name: "CIPhotoEffectInstant")!
@@ -99,7 +145,7 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         colorClamp.setValue(CIVector(x: 0.9, y: 0.9, z: 0.9, w: 0.9), forKey: "inputMaxComponents")
         colorClamp.setValue(CIVector(x: 0.2, y: 0.2, z: 0.2, w: 0.2), forKey: "inputMinComponents")
         
-    
+        
         let composite = CIFilter(name: "CIHardLightBlendMode")!
         composite.setValue(sepia.outputImage, forKey: kCIInputImageKey)
         

@@ -64,6 +64,7 @@ class ProfileVewController: UIViewController, FBSDKLoginButtonDelegate {
         else {
             // If you ask for multiple permissions at once, you
             // should check if specific permissions missing
+            //EXAMPLE NOT NEEDED!
             if result.grantedPermissions.contains("email") ||
             result.grantedPermissions.contains("public_profile") ||
             result.grantedPermissions.contains("user_friends") ||
@@ -101,7 +102,6 @@ class ProfileVewController: UIViewController, FBSDKLoginButtonDelegate {
             {
               // Fetch & format the profile picture
             let strProfilePicURL = fbProfile.imageURLForPictureMode(FBSDKProfilePictureMode.Square, size: self.profileImageView.frame.size)
-            //let url = NSURL(string: strProfilePicURL, relativeToURL: NSURL(string: "http://graph.facebook.com/"))
             let imageData = NSData(contentsOfURL: strProfilePicURL!)
             let image = UIImage(data: imageData!)
             

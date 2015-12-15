@@ -108,7 +108,7 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell:FeedCell =  collectionView.dequeueReusableCellWithReuseIdentifier("MyCell", forIndexPath: indexPath) as! FeedCell
         let thisItem = feedArray[indexPath.row] as! FeedItem
-        print("Location \(indexPath.row), Item\(thisItem)")
+        //print("Location \(indexPath.row), Item\(thisItem)")
         cell.imageView.image = UIImage(data: thisItem.image!)
         cell.imageCaptionLabel.text = thisItem.caption
         return cell
@@ -117,7 +117,7 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let thisItem = feedArray[indexPath.row] as! FeedItem
         
-        print("Selected Location \(indexPath.row), Item\(thisItem)")
+        //print("Selected Location \(indexPath.row), Item\(thisItem)")
         let filterVC = FilterViewController()//TODO: I feel some type of way about this
         
         filterVC.thisFeedItem = thisItem
