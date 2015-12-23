@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKShareKit
 
-class FilterViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate {
+class FilterViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,FBSDKSharingDelegate{
 
     var thisFeedItem: FeedItem!
     var collectionView: UICollectionView!
@@ -79,26 +81,23 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         let alert = UIAlertController(title: "Photo Options", message: "Please choose an option", preferredStyle: UIAlertControllerStyle.Alert)
         
         alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-            textField.placeholder = "Add Caption"
+            textField.placeholder = "Add Caption!"
             textField.secureTextEntry = false
             })
         
        
-        var text:String
         let textField = alert.textFields![0] as UITextField
-        
-        if textField.text != nil {
-             text = textField.text!
-        }
-        
+  
         let photoAction = UIAlertAction(title: "Post Photo to Facebook with Caption", style: UIAlertActionStyle.Destructive, handler: {(UIAlertAction) -> Void in
-             self.saveFilterToCoreData(indexPath)
              self.shareToFacebook(indexPath)
+             let text = (textField.text != nil) ? textField.text! : "Untitled"
+             self.saveFilterToCoreData(indexPath, caption: text)
         })
         alert.addAction(photoAction)
         
         let saveFilterAction = UIAlertAction(title: "Save Filter without Posting", style: UIAlertActionStyle.Default, handler: {(UIAlertAction) -> Void in
-            self.saveFilterToCoreData(indexPath)
+            let text = (textField.text != nil) ? textField.text! : "Untitled"
+            self.saveFilterToCoreData(indexPath, caption: text)
         })
         alert.addAction(saveFilterAction)
         
@@ -112,18 +111,56 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         }
     
     //Action Helpers
-    func saveFilterToCoreData (indexPath: NSIndexPath) {
+    func saveFilterToCoreData (indexPath: NSIndexPath, caption: String) {
         let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: self.filters[indexPath.row])
         let imageData = UIImageJPEGRepresentation(filterImage, 1.0)
         self.thisFeedItem.image = imageData
         let thumbNailData = UIImageJPEGRepresentation(filterImage, 0.1)
         self.thisFeedItem.thumbNail = thumbNailData
+        self.thisFeedItem.caption = caption
         self.appDelegate.saveContext()
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    func quickAlert(header: String, message: String) {
+        let alert: UIAlertController = UIAlertController(title: header, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let closeAction: UIAlertAction = UIAlertAction(title: "Close", style: UIAlertActionStyle.Default) { (UIAlertAction) -> Void in }
+        alert.addAction(closeAction)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     
-    func shareToFacebook(indexPath: NSIndexPath){}
+    //FB Helpers & FB Sharing Delegate
+    func shareToFacebook(indexPath: NSIndexPath){
+        let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: self.filters[indexPath.row])
+        let photo:FBSDKSharePhoto = FBSDKSharePhoto()
+        photo.image = filterImage
+        photo.userGenerated = true
+        let sharePhotoContent: FBSDKSharePhotoContent = FBSDKSharePhotoContent()
+        sharePhotoContent.photos = [photo]
+        
+        let shareDialogue : FBSDKShareDialog = FBSDKShareDialog()
+        shareDialogue.fromViewController = self
+        shareDialogue.shareContent = sharePhotoContent
+       
+        
+        FBSDKShareDialog.showFromViewController(self, withContent: sharePhotoContent, delegate: self)
+
+    }
+    
+    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        print("Share Results\(results)")
+         self.quickAlert( "Success", message: "Photo posted to Facebook." )
+        
+    }
+    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+         self.quickAlert( "Error", message: "Problem sharing photo.\r\nError description: \(error.localizedDescription)")
+    }
+    
+    func sharerDidCancel(sharer: FBSDKSharing!) {
+         self.quickAlert( "Sharing Cancelled", message: "Sharing Action Cancelled" )
+    }
     
     
     //Filters and Caching
