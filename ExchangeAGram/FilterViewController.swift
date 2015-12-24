@@ -87,16 +87,17 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         
        
         let textField = alert.textFields![0] as UITextField
-  
+        let text = (textField.text != nil && !textField.text!.isEmpty  ) ? textField.text! : "Untitled"
+        
         let photoAction = UIAlertAction(title: "Post Photo to Facebook with Caption", style: UIAlertActionStyle.Destructive, handler: {(UIAlertAction) -> Void in
              self.shareToFacebook(indexPath)
-             let text = (textField.text != nil) ? textField.text! : "Untitled"
+            
              self.saveFilterToCoreData(indexPath, caption: text)
         })
         alert.addAction(photoAction)
         
         let saveFilterAction = UIAlertAction(title: "Save Filter without Posting", style: UIAlertActionStyle.Default, handler: {(UIAlertAction) -> Void in
-            let text = (textField.text != nil) ? textField.text! : "Untitled"
+             //let text = (textField.text != nil && !textField.text!.isEmpty  ) ? textField.text! : "Untitled"
             self.saveFilterToCoreData(indexPath, caption: text)
         })
         alert.addAction(saveFilterAction)
