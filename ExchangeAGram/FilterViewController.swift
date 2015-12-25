@@ -152,11 +152,11 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         print("Share Results\(results)")
-         self.quickAlert( "Success", message: "Photo posted to Facebook." )
+         self.quickAlert( "Success Sharing to Facebook", message: "Photo posted to Facebook." )
         
     }
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-         self.quickAlert( "Error", message: "Problem sharing photo.\r\nError description: \(error.localizedDescription)")
+         self.quickAlert( "Error Sharing to Facebook", message: "Problem sharing photo.\r\nError description: \(error.localizedDescription)")
     }
     
     func sharerDidCancel(sharer: FBSDKSharing!) {
@@ -192,7 +192,18 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         vignette.setValue(kIntensity * 2, forKey: kCIInputIntensityKey)
         vignette.setValue(kIntensity * 30, forKey: kCIInputRadiusKey)
         
-        return [blur,instant,noir,transfer,unsharpen,monochrome,colorControls,sepia,composite,vignette]
+        return [
+            //blur,
+            //instant,
+            noir
+            //transfer,
+            //unsharpen,
+            //monochrome,
+            //colorControls,
+            //sepia,
+            //composite,
+            //vignette
+        ]
     }
     
     func filteredImageForImage(imageData: NSData, filter: CIFilter) -> UIImage {
@@ -222,7 +233,9 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
             let data = self.thisFeedItem.thumbNail
             let filter = self.filters[imageNumber]
             let image = filteredImageForImage(data!, filter: filter)
-            UIImageJPEGRepresentation(image, 1.0)!.writeToFile(uniquePath, atomically: true)
+            let imageData = UIImageJPEGRepresentation(image, 1.0)
+            imageData!.writeToFile(uniquePath, atomically: true)
+            //UIImageJPEGRepresentation(image, 1.0)!.writeToFile(uniquePath, atomically: true)
         }
     }
     
