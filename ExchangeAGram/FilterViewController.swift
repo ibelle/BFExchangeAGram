@@ -14,11 +14,11 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     var thisFeedItem: FeedItem!
     var collectionView: UICollectionView!
-    var context:CIContext = CIContext(options: nil)
+    let context:CIContext = CIContext(options: nil)
     var filters:[CIFilter] = []
     let kIntensity = 0.7
     let placeHolderImage:UIImage = UIImage(named: "Placeholder")!
-    let tmp:String = NSTemporaryDirectory()
+    let tmpDir:String = NSTemporaryDirectory()
     let appDelegate:AppDelegate =  UIApplication.sharedApplication().delegate as! AppDelegate
     
     
@@ -61,8 +61,6 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         dispatch_async(filter_queue, { () -> Void in
             let filteredImage = self.getCachedImage(indexPath.row)
             
-            //self.filteredImageForImage(self.thisFeedItem.thumbNail!, filter: self.filters[indexPath.row])
-            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 cell.imageView.image = filteredImage
             })
@@ -87,9 +85,10 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         
        
         let textField = alert.textFields![0] as UITextField
-        let text = (textField.text != nil && !textField.text!.isEmpty  ) ? textField.text! : "Untitled"
         
         let photoAction = UIAlertAction(title: "Post Photo to Facebook with Caption", style: UIAlertActionStyle.Destructive, handler: {(UIAlertAction) -> Void in
+            let text = (textField.text != nil && !textField.text!.isEmpty) ? textField.text! : "Untitled"
+
              self.shareToFacebook(indexPath)
             
              self.saveFilterToCoreData(indexPath, caption: text)
@@ -97,7 +96,7 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         alert.addAction(photoAction)
         
         let saveFilterAction = UIAlertAction(title: "Save Filter without Posting", style: UIAlertActionStyle.Default, handler: {(UIAlertAction) -> Void in
-             //let text = (textField.text != nil && !textField.text!.isEmpty  ) ? textField.text! : "Untitled"
+            let text = (textField.text != nil && !textField.text!.isEmpty  ) ? textField.text! : "Untitled"
             self.saveFilterToCoreData(indexPath, caption: text)
         })
         alert.addAction(saveFilterAction)
@@ -112,8 +111,22 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         }
     
     //Action Helpers
+    func createFileTSFromDate(date: NSDate) -> String
+    {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd:HH:mm:ss:SS"
+        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        let date = dateFormatter.stringFromDate(date)
+        return date
+    }
+    
+    /*func createFilterInstance(filterNumber: Int) -> CIFilter{
+        return self.filters[filterNumber].copy() as! CIFilter
+    }*/
+    
     func saveFilterToCoreData (indexPath: NSIndexPath, caption: String) {
-        let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: self.filters[indexPath.row])
+        let filter = self.filters[indexPath.row]
+        let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: filter)
         let imageData = UIImageJPEGRepresentation(filterImage, 1.0)
         self.thisFeedItem.image = imageData
         let thumbNailData = UIImageJPEGRepresentation(filterImage, 0.1)
@@ -134,7 +147,8 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     
     //FB Helpers & FB Sharing Delegate
     func shareToFacebook(indexPath: NSIndexPath){
-        let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: self.filters[indexPath.row])
+        let filter = self.filters[indexPath.row]
+        let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: filter)
         let photo:FBSDKSharePhoto = FBSDKSharePhoto()
         photo.image = filterImage
         photo.userGenerated = true
@@ -193,16 +207,17 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         vignette.setValue(kIntensity * 30, forKey: kCIInputRadiusKey)
         
         return [
-            //blur,
-            //instant,
-            noir
-            //transfer,
-            //unsharpen,
-            //monochrome,
-            //colorControls,
-            //sepia,
-            //composite,
-            //vignette
+            blur,
+            instant,
+            noir,
+            transfer,
+            unsharpen,
+            monochrome,
+            colorControls,
+            sepia,
+            //colorClamp,
+            composite,
+            vignette
         ]
     }
     
@@ -216,32 +231,30 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
  
         //2) Sample CIImage into CG Image with bounds formed by extent )Optimizing for display in collection view)
         let rect = filteredImage.extent
-        let cgImage:CGImageRef = context.createCGImage(filteredImage, fromRect: rect)
+        let cgImage:CGImageRef = self.context.createCGImage(filteredImage, fromRect: rect)
         
         //3) Convert Sampled CGImage into UI Image for display
-        let finalImage:UIImage = UIImage(CGImage: cgImage)
+        let finalImage:UIImage =  UIImage(CGImage: cgImage, scale: 1.0, orientation: UIImageOrientation.Up)
         
-        //let finalImage = UIImage(CIImage: filteredImage)
         return finalImage
     }
     
     func cacheImage(imageNumber:Int){
-        let  fileName = "\(imageNumber)-\(self.thisFeedItem.creationDate)"
-        let uniquePath =  (tmp as NSString).stringByAppendingPathComponent(fileName)
+        let  fileName = "\(imageNumber)-\(self.createFileTSFromDate(self.thisFeedItem.creationDate!))"
+        let uniquePath =  (tmpDir as NSString).stringByAppendingPathComponent(fileName)
         
         if !NSFileManager.defaultManager().fileExistsAtPath(uniquePath){
             let data = self.thisFeedItem.thumbNail
-            let filter = self.filters[imageNumber]
+            let filter = self.filters[imageNumber].copy() as! CIFilter
             let image = filteredImageForImage(data!, filter: filter)
             let imageData = UIImageJPEGRepresentation(image, 1.0)
             imageData!.writeToFile(uniquePath, atomically: true)
-            //UIImageJPEGRepresentation(image, 1.0)!.writeToFile(uniquePath, atomically: true)
         }
     }
     
     func getCachedImage (imageNumber: Int) -> UIImage {
-        let fileName = "\(imageNumber)-\(self.thisFeedItem.creationDate)"
-        let uniquePath = (tmp as NSString).stringByAppendingPathComponent(fileName)
+        let fileName = "\(imageNumber)-\(self.createFileTSFromDate(self.thisFeedItem.creationDate!))"
+        let uniquePath = (tmpDir as NSString).stringByAppendingPathComponent(fileName)
         var image:UIImage
         
         if NSFileManager.defaultManager().fileExistsAtPath(uniquePath) {
