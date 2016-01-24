@@ -9,17 +9,31 @@
 import UIKit
 import MobileCoreServices
 import CoreData
+import MapKit
 
-class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate  {
+class FeedViewController: UIViewController,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+UICollectionViewDataSource,
+UICollectionViewDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var galleryCollectionView: UICollectionView!
 
     let appDelegate:AppDelegate =  UIApplication.sharedApplication().delegate as! AppDelegate
     var feedArray:[AnyObject] = []
+    var locationManager:CLLocationManager!
     
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.distanceFilter = 100.0
+        locationManager.startUpdatingLocation()
+        
+        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -125,4 +139,8 @@ class FeedViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         self.navigationController?.pushViewController(filterVC, animated: false)
     }
 
+    //CllocationManager
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Locations \(locations)")
+    }
 }

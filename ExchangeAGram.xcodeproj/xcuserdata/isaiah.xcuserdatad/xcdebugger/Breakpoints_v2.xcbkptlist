@@ -25,15 +25,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ExchangeAGram/FilterViewController.swift"
-            timestampString = "473492728.32554"
+            timestampString = "475366078.225719"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
             landmarkName = "cacheImage(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -45,11 +45,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ExchangeAGram/FilterViewController.swift"
-            timestampString = "473492728.32554"
+            timestampString = "475366078.225719"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
             landmarkName = "filteredImageForImage(_:filter:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -57,15 +57,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ExchangeAGram/FilterViewController.swift"
-            timestampString = "473492728.32554"
+            timestampString = "475367218.750998"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
             landmarkName = "cacheImage(_:)"
             landmarkType = "5">
          </BreakpointContent>

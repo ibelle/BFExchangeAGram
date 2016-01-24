@@ -14,6 +14,8 @@
 		40688CE81C168E8D002FBE99 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40688CE41C168E8D002FBE99 /* FBSDKCoreKit.framework */; };
 		40688CE91C168E8D002FBE99 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40688CE51C168E8D002FBE99 /* FBSDKLoginKit.framework */; };
 		40688CEA1C168E8D002FBE99 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40688CE61C168E8D002FBE99 /* FBSDKShareKit.framework */; };
+		40703D591C558DFE006F44B0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40703D581C558DFE006F44B0 /* MapViewController.swift */; };
+		40703D5B1C55917B006F44B0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40703D5A1C55917B006F44B0 /* MapKit.framework */; };
 		409D62821C011632001C557A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D62811C011632001C557A /* AppDelegate.swift */; };
 		409D62871C011632001C557A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 409D62851C011632001C557A /* Main.storyboard */; };
 		409D628A1C011632001C557A /* ExchangeAGram.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 409D62881C011632001C557A /* ExchangeAGram.xcdatamodeld */; };
@@ -53,6 +55,8 @@
 		40688CE41C168E8D002FBE99 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		40688CE51C168E8D002FBE99 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		40688CE61C168E8D002FBE99 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		40703D581C558DFE006F44B0 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		40703D5A1C55917B006F44B0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		409D627E1C011632001C557A /* ExchangeAGram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExchangeAGram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		409D62811C011632001C557A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		409D62861C011632001C557A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -78,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40703D5B1C55917B006F44B0 /* MapKit.framework in Frameworks */,
 				409D62B71C025BDA001C557A /* MobileCoreServices.framework in Frameworks */,
 				40688CE81C168E8D002FBE99 /* FBSDKCoreKit.framework in Frameworks */,
 				40688CEA1C168E8D002FBE99 /* FBSDKShareKit.framework in Frameworks */,
@@ -116,6 +121,7 @@
 		4059A6821C13ACF300845846 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				40703D5A1C55917B006F44B0 /* MapKit.framework */,
 				40688CE31C168E8D002FBE99 /* Bolts.framework */,
 				40688CE41C168E8D002FBE99 /* FBSDKCoreKit.framework */,
 				40688CE51C168E8D002FBE99 /* FBSDKLoginKit.framework */,
@@ -150,7 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				4059A6751C08D62700845846 /* Model */,
-				409D62B21C024F50001C557A /* FeedViewController.swift */,
 				409D62B41C025963001C557A /* FeedCell.swift */,
 				40EC7AC81C08045E00975AC5 /* FilterCell.swift */,
 				409D62811C011632001C557A /* AppDelegate.swift */,
@@ -159,7 +164,9 @@
 				409D628B1C011632001C557A /* Assets.xcassets */,
 				409D628D1C011632001C557A /* LaunchScreen.storyboard */,
 				409D62901C011632001C557A /* Info.plist */,
+				409D62B21C024F50001C557A /* FeedViewController.swift */,
 				40BB879E1C0697AC00764C6F /* FilterViewController.swift */,
+				40703D581C558DFE006F44B0 /* MapViewController.swift */,
 			);
 			path = ExchangeAGram;
 			sourceTree = "<group>";
@@ -317,6 +324,7 @@
 				40BB879F1C0697AC00764C6F /* FilterViewController.swift in Sources */,
 				40EC7AC91C08045E00975AC5 /* FilterCell.swift in Sources */,
 				4059A6781C0FDCE100845846 /* FeedItem+CoreDataProperties.swift in Sources */,
+				40703D591C558DFE006F44B0 /* MapViewController.swift in Sources */,
 				409D628A1C011632001C557A /* ExchangeAGram.xcdatamodeld in Sources */,
 				4059A6791C0FDCE100845846 /* FeedItem.swift in Sources */,
 				4059A67B1C0FE8B000845846 /* ProfileVewController.swift in Sources */,

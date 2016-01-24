@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0bu-nl-16n">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1509" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0bu-nl-16n">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--Feed View Controller-->
@@ -106,6 +106,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZM9-zl-iR2">
+                                <rect key="frame" x="20" y="317" width="146" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.77121623650000004" blue="0.162552691" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Map View"/>
+                                <connections>
+                                    <action selector="mapViewButtonTapped:" destination="dF5-UM-bFu" eventType="touchUpInside" id="HCq-fN-1Tn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -113,11 +121,38 @@
                         <outlet property="fbLoginView" destination="5mx-XF-ett" id="qwL-PY-QsZ"/>
                         <outlet property="nameLabel" destination="5Ys-7E-3Sr" id="rE7-rh-Uo4"/>
                         <outlet property="profileImageView" destination="Sus-bg-DYD" id="1Qb-Tm-Uow"/>
+                        <segue destination="tcy-bh-pAH" kind="show" identifier="mapSegue" id="bk2-ld-mvV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YCF-nl-s19" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1975" y="445"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="GcV-8W-L8g">
+            <objects>
+                <viewController id="tcy-bh-pAH" customClass="MapViewController" customModule="ExchangeAGram" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DPP-Xm-HQP"/>
+                        <viewControllerLayoutGuide type="bottom" id="y3T-BF-cuV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="69s-bF-RG7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mop-8g-c7k">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="mop-8g-c7k" id="xUj-AW-Mbi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MOF-OA-qZo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1975" y="1164"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qWn-35-NSj">

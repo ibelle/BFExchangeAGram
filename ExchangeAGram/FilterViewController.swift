@@ -15,11 +15,12 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     var thisFeedItem: FeedItem!
     var collectionView: UICollectionView!
     let context:CIContext = CIContext(options: nil)
-    var filters:[CIFilter] = []
+    var filters:[String] = []
     let kIntensity = 0.7
     let placeHolderImage:UIImage = UIImage(named: "Placeholder")!
     let tmpDir:String = NSTemporaryDirectory()
     let appDelegate:AppDelegate =  UIApplication.sharedApplication().delegate as! AppDelegate
+    //let myFileManager:NSFileManager = NSFileManager()
     
     
     
@@ -120,12 +121,10 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         return date
     }
     
-    /*func createFilterInstance(filterNumber: Int) -> CIFilter{
-        return self.filters[filterNumber].copy() as! CIFilter
-    }*/
+   
     
     func saveFilterToCoreData (indexPath: NSIndexPath, caption: String) {
-        let filter = self.filters[indexPath.row]
+        let filter = self.createFilter(self.filters[indexPath.row])!
         let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: filter)
         let imageData = UIImageJPEGRepresentation(filterImage, 1.0)
         self.thisFeedItem.image = imageData
@@ -147,7 +146,7 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     
     //FB Helpers & FB Sharing Delegate
     func shareToFacebook(indexPath: NSIndexPath){
-        let filter = self.filters[indexPath.row]
+        let filter = self.createFilter(self.filters[indexPath.row])!
         let filterImage  = self.filteredImageForImage(self.thisFeedItem.image!, filter: filter)
         let photo:FBSDKSharePhoto = FBSDKSharePhoto()
         photo.image = filterImage
@@ -179,7 +178,50 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     
     
     //Filters and Caching
-    func photoFilters() -> [CIFilter] {
+    func createFilter(filterName: String) -> CIFilter?{
+        switch filterName {
+        case "blur"://Blur
+            return CIFilter(name: "CIGaussianBlur")!
+        case "instant": //Instant
+            return CIFilter(name: "CIPhotoEffectInstant")!
+        case "noir"://Noir
+            return CIFilter(name: "CIPhotoEffectNoir")!
+        case "transfer"://Transfer
+            return CIFilter(name: "CIPhotoEffectTransfer")!
+        case "unsharpen":// UnSharpen
+            return CIFilter(name: "CIUnsharpMask")!
+        case "monochrome"://MonoChrome
+            return CIFilter(name: "CIColorMonochrome")!
+        case "color_controls"://Color Controls
+            let colorControls = CIFilter(name: "CIColorControls")!
+            colorControls.setValue(0.5, forKey: kCIInputSaturationKey)
+            return colorControls
+        case "sepia"://Sepia
+            let sepia = CIFilter(name: "CISepiaTone")!
+            sepia.setValue(kIntensity, forKey: kCIInputIntensityKey)
+            return sepia
+        case "color_clamp"://ColorClamp
+            let colorClamp = CIFilter(name: "CIColorClamp")! //TODO: Comeback and Fix
+            colorClamp.setValue(CIVector(x: 0.9, y: 0.9, z: 0.9, w: 0.9), forKey: "inputMaxComponents")
+            colorClamp.setValue(CIVector(x: 0.2, y: 0.2, z: 0.2, w: 0.2), forKey: "inputMinComponents")
+            return colorClamp
+        case "composite"://Composite
+            let composite = CIFilter(name: "CIHardLightBlendMode")!
+            composite.setValue(createFilter("sepia")!.outputImage, forKey: kCIInputImageKey)
+            return composite
+        case "vignette"://Vignette
+            let vignette = CIFilter(name: "CIVignette")!
+            vignette.setValue(createFilter("composite")!.outputImage, forKey: kCIInputImageKey)
+            vignette.setValue(kIntensity * 2, forKey: kCIInputIntensityKey)
+            vignette.setValue(kIntensity * 30, forKey: kCIInputRadiusKey)
+            return vignette
+        default:
+            print("Invalid Filter \(filterName)")
+        }
+        return nil
+    }
+    
+    /*func photoFilters() -> [CIFilter] {
         let blur = CIFilter(name: "CIGaussianBlur")!
         let instant = CIFilter(name: "CIPhotoEffectInstant")!
         let noir = CIFilter(name: "CIPhotoEffectNoir")!
@@ -219,6 +261,22 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
             composite,
             vignette
         ]
+    }*/
+    func photoFilters() -> [String] {
+        
+        return [
+            "blur",
+            "instant",
+            "noir",
+            "transfer",
+            "unsharpen",
+            "monochrome",
+            "color_controls",
+            "sepia",
+            //color_clamp",
+            "composite",
+            "vignette"
+        ]
     }
     
     func filteredImageForImage(imageData: NSData, filter: CIFilter) -> UIImage {
@@ -245,9 +303,9 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
         
         if !NSFileManager.defaultManager().fileExistsAtPath(uniquePath){
             let data = self.thisFeedItem.thumbNail
-            let filter = self.filters[imageNumber].copy() as! CIFilter
+            let filter = self.createFilter(self.filters[imageNumber])!
             let image = filteredImageForImage(data!, filter: filter)
-            let imageData = UIImageJPEGRepresentation(image, 1.0)
+            let imageData = UIImageJPEGRepresentation(image, 1.0)// BAD ACCESS HERE STILL UNRESOLVED!!
             imageData!.writeToFile(uniquePath, atomically: true)
         }
     }

@@ -49,6 +49,9 @@ class ProfileVewController: UIViewController, FBSDKLoginButtonDelegate {
     }
     
     
+    @IBAction func mapViewButtonTapped(sender: UIButton) {
+        
+    }
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!){
         print("User Logged In")
         
