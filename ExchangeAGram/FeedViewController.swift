@@ -93,11 +93,15 @@ UICollectionViewDelegate, CLLocationManagerDelegate {
         let entityDescription = NSEntityDescription.entityForName("FeedItem", inManagedObjectContext: managedObjectContext)
         let feedItem = FeedItem(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext)
         
+        let UUID = NSUUID().UUIDString
+        feedItem.uid = UUID
         feedItem.image = imageData
         feedItem.thumbNail = thumbNailData
         feedItem.creationDate = NSDate()
         feedItem.caption = "test caption"
-        
+        feedItem.lat = self.locationManager.location?.coordinate.latitude
+        feedItem.long = self.locationManager.location?.coordinate.longitude
+        feedItem.filtered = false
         self.appDelegate.saveContext()
         
         self.feedArray.append(feedItem)

@@ -298,20 +298,20 @@ class FilterViewController: UIViewController,UICollectionViewDataSource, UIColle
     }
     
     func cacheImage(imageNumber:Int){
-        let  fileName = "\(imageNumber)-\(self.createFileTSFromDate(self.thisFeedItem.creationDate!))"
+        let  fileName = "\(imageNumber)-\(self.thisFeedItem.uid!)"
         let uniquePath =  (tmpDir as NSString).stringByAppendingPathComponent(fileName)
         
         if !NSFileManager.defaultManager().fileExistsAtPath(uniquePath){
             let data = self.thisFeedItem.thumbNail
             let filter = self.createFilter(self.filters[imageNumber])!
             let image = filteredImageForImage(data!, filter: filter)
-            let imageData = UIImageJPEGRepresentation(image, 1.0)// BAD ACCESS HERE STILL UNRESOLVED!!
+            let imageData = UIImageJPEGRepresentation(image, 1.0)// EXC_BAD_ACCESS HERE STILL UNRESOLVED!!
             imageData!.writeToFile(uniquePath, atomically: true)
         }
     }
     
     func getCachedImage (imageNumber: Int) -> UIImage {
-        let fileName = "\(imageNumber)-\(self.createFileTSFromDate(self.thisFeedItem.creationDate!))"
+        let fileName = "\(imageNumber)-\(self.thisFeedItem.uid!)"
         let uniquePath = (tmpDir as NSString).stringByAppendingPathComponent(fileName)
         var image:UIImage
         

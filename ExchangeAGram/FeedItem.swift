@@ -2,8 +2,8 @@
 //  FeedItem.swift
 //  ExchangeAGram
 //
-//  Created by Isaiah Belle on 12/2/15.
-//  Copyright © 2015 Isaiah Belle. All rights reserved.
+//  Created by Isaiah Belle on 1/24/16.
+//  Copyright © 2016 Isaiah Belle. All rights reserved.
 //
 
 import Foundation

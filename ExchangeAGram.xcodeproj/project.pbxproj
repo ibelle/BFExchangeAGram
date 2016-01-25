@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4059A6781C0FDCE100845846 /* FeedItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4059A6761C0FDCE100845846 /* FeedItem+CoreDataProperties.swift */; };
-		4059A6791C0FDCE100845846 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4059A6771C0FDCE100845846 /* FeedItem.swift */; };
 		4059A67B1C0FE8B000845846 /* ProfileVewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4059A67A1C0FE8B000845846 /* ProfileVewController.swift */; };
 		40688CE71C168E8D002FBE99 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40688CE31C168E8D002FBE99 /* Bolts.framework */; };
 		40688CE81C168E8D002FBE99 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40688CE41C168E8D002FBE99 /* FBSDKCoreKit.framework */; };
@@ -16,6 +14,8 @@
 		40688CEA1C168E8D002FBE99 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40688CE61C168E8D002FBE99 /* FBSDKShareKit.framework */; };
 		40703D591C558DFE006F44B0 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40703D581C558DFE006F44B0 /* MapViewController.swift */; };
 		40703D5B1C55917B006F44B0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40703D5A1C55917B006F44B0 /* MapKit.framework */; };
+		40703D621C55B109006F44B0 /* FeedItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40703D601C55B109006F44B0 /* FeedItem+CoreDataProperties.swift */; };
+		40703D631C55B109006F44B0 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40703D611C55B109006F44B0 /* FeedItem.swift */; };
 		409D62821C011632001C557A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409D62811C011632001C557A /* AppDelegate.swift */; };
 		409D62871C011632001C557A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 409D62851C011632001C557A /* Main.storyboard */; };
 		409D628A1C011632001C557A /* ExchangeAGram.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 409D62881C011632001C557A /* ExchangeAGram.xcdatamodeld */; };
@@ -48,8 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4059A6761C0FDCE100845846 /* FeedItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		4059A6771C0FDCE100845846 /* FeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		4059A67A1C0FE8B000845846 /* ProfileVewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVewController.swift; sourceTree = "<group>"; };
 		40688CE31C168E8D002FBE99 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		40688CE41C168E8D002FBE99 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -57,6 +55,8 @@
 		40688CE61C168E8D002FBE99 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		40703D581C558DFE006F44B0 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		40703D5A1C55917B006F44B0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		40703D601C55B109006F44B0 /* FeedItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		40703D611C55B109006F44B0 /* FeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		409D627E1C011632001C557A /* ExchangeAGram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExchangeAGram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		409D62811C011632001C557A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		409D62861C011632001C557A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -111,8 +111,8 @@
 		4059A6751C08D62700845846 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4059A6761C0FDCE100845846 /* FeedItem+CoreDataProperties.swift */,
-				4059A6771C0FDCE100845846 /* FeedItem.swift */,
+				40703D601C55B109006F44B0 /* FeedItem+CoreDataProperties.swift */,
+				40703D611C55B109006F44B0 /* FeedItem.swift */,
 				409D62881C011632001C557A /* ExchangeAGram.xcdatamodeld */,
 			);
 			name = Model;
@@ -323,13 +323,13 @@
 			files = (
 				40BB879F1C0697AC00764C6F /* FilterViewController.swift in Sources */,
 				40EC7AC91C08045E00975AC5 /* FilterCell.swift in Sources */,
-				4059A6781C0FDCE100845846 /* FeedItem+CoreDataProperties.swift in Sources */,
 				40703D591C558DFE006F44B0 /* MapViewController.swift in Sources */,
 				409D628A1C011632001C557A /* ExchangeAGram.xcdatamodeld in Sources */,
-				4059A6791C0FDCE100845846 /* FeedItem.swift in Sources */,
 				4059A67B1C0FE8B000845846 /* ProfileVewController.swift in Sources */,
+				40703D621C55B109006F44B0 /* FeedItem+CoreDataProperties.swift in Sources */,
 				409D62B51C025963001C557A /* FeedCell.swift in Sources */,
 				409D62B31C024F50001C557A /* FeedViewController.swift in Sources */,
+				40703D631C55B109006F44B0 /* FeedItem.swift in Sources */,
 				409D62821C011632001C557A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

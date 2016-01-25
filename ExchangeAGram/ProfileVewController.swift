@@ -50,7 +50,7 @@ class ProfileVewController: UIViewController, FBSDKLoginButtonDelegate {
     
     
     @IBAction func mapViewButtonTapped(sender: UIButton) {
-        
+       self.performSegueWithIdentifier("mapSegue", sender: nil)
     }
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!){
         print("User Logged In")
